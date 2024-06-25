@@ -1,84 +1,57 @@
+const buttons = document.querySelectorAll('button');
+const result = document.querySelector('#result');
 
+buttons.forEach((button) => {
+  button.addEventListener('click', playRound)
+})
 
-// this function gets random choice of rock, paper or scissors
+  let playerScore = 0;
+  let computerScore = 0;
 
-function getComputerChoice() {
+function playRound(event) {
 
-  let rock = "rock";
-  let paper = "paper";
-  let scissors = "scissors";
+  let playerChoice = event.target.textContent;
+  let computerChoice = getComputerSelection();
+  
 
-  let randomNum = Math.floor(Math.random() * 3);
-
-  if (randomNum === 0) {
-    return rock;
+  if (
+		(playerChoice === 'Rock' && computerChoice === 'Scissors') ||
+		(playerChoice === 'Paper' && computerChoice === 'Rock') ||
+		(playerChoice === 'Scissors' && computerChoice === 'Paper')
+	) {
+    
+    playerScore += 1
+		result.textContent = `You win! ${playerChoice} beats ${computerChoice}! Your score: ${playerScore}. Computer's Score: ${computerScore}`
+		
+	} else if (
+		(playerChoice === 'Rock' && computerChoice === 'Paper') ||
+		(playerChoice === 'Paper' && computerChoice === 'Scissors') ||
+		(playerChoice === 'Scissors' && computerChoice === 'Rock')
+	) {
+    
+    computerScore += 1
+		result.textContent = `You lose! ${computerChoice} beats ${playerChoice}! Your score: ${playerScore}. Computer's Score: ${computerScore}`
+		
+	} else result.textContent = `It's a tie! Your score: ${playerScore}. Computer's Score: ${computerScore}`
+	
+  if (playerScore == 5) {
+    return result.textContent = ` You win! Your score is 5 points! Computer's score is ${computerScore} points`
   }
 
-  else if (randomNum === 1) {
-    return paper;
+  else if (computerScore == 5) {
+    return (result.textContent = `You lose! Computer's score is 5 points! Your score is ${playerScore}`)
   }
 
-  else return scissors;
 }
 
-// this function gets input from player with choice of rock, paper or scissors
+function getComputerSelection() {
 
-function getHumanChoice() {
-  let humanChoice = prompt("Choose rock, paper or scissors!").toLowerCase();
-  return humanChoice;
-}
+	let randomNum = Math.floor(Math.random() * 3)
 
-
-
-function playGame() {
-
-// scores of player and computer
-
-let humanScore = 0;
-let computerScore = 0;
-
-// function to play one round
-
-  function playRound(humanChoice, computerChoice) {
-  if (humanChoice === "rock" && computerChoice === "scissors" ||
-      humanChoice === "paper" && computerChoice === "rock" ||
-      humanChoice === "scissors" && computerChoice === "paper") {
-        console.log(`You win! ${humanChoice} beats ${computerChoice}!`)
-        humanScore += 1;
-      }
-
-  else if (humanChoice === "rock" && computerChoice === "paper" ||
-            humanChoice === "paper" && computerChoice === "scissors" ||
-            humanChoice === "scissors" && computerChoice === "rock") {
-              console.log(`You lose! ${computerChoice} beats ${humanChoice}!`);
-              computerScore += 1;
-            }
-
-  else console.log("It's a tie!");
-}
-
-// five rounds of game
-
-playRound(getHumanChoice(), getComputerChoice());
-playRound(getHumanChoice(), getComputerChoice());
-playRound(getHumanChoice(), getComputerChoice());
-playRound(getHumanChoice(), getComputerChoice());
-playRound(getHumanChoice(), getComputerChoice());
-
-// choosing the winner
-
-if (humanScore > computerScore) {
-  console.log(`You win! Your score is ${humanScore}, computer is ${computerScore}`);
-}
-
-else  if (humanScore < computerScore) {
-  console.log(`You lose! Your score is ${humanScore}, computer is ${computerScore}`)
-}
-
-else console.log("No winner!");
+	if (randomNum === 0) {
+		return 'Rock'
+	} else if (randomNum === 1) {
+		return 'Paper'
+	} else return 'Scissors'
 
 }
-
-playGame();
-
-
